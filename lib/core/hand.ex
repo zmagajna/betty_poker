@@ -15,7 +15,7 @@ defmodule BettyPoker.Core.Hand do
   """
   @spec parse(String.t()) :: {:ok, __MODULE__.t()} | {:error, String.t()}
   def parse(raw_cards) when is_binary(raw_cards) do
-    with cards when not is_tuple(cards) <- parse_out_cards(raw_cards) do
+    with {:ok, cards} <- parse_out_cards(raw_cards) do
       {:ok, %__MODULE__{cards: cards, hand: Ranking.rank_hand(cards)}}
     end
   end
@@ -32,5 +32,10 @@ defmodule BettyPoker.Core.Hand do
         _ -> {:halt, {:error, "Cannot parse cards"}}
       end
     end)
+    |> case do
+      {:error, reason} -> {:error, reason}
+      cards when length(cards) > 5 -> {:error, "too much cards"}
+      cards -> {:ok, cards}
+    end
   end
 end

@@ -177,7 +177,7 @@ defmodule BettyPoker.Core.Ranking do
     cards
     |> get_frequency_for_cards()
     |> Enum.reduce(0, fn
-      {_key, value}, frequency_sum when value > 2 -> frequency_sum + value
+      {_key, value}, frequency_sum when value > 3 -> frequency_sum + value
       _, frequency_sum -> frequency_sum
     end)
     |> Kernel.==(4)
@@ -205,7 +205,7 @@ defmodule BettyPoker.Core.Ranking do
     cards
     |> get_frequency_for_cards()
     |> Enum.reduce(0, fn
-      {_key, value}, frequency_sum when value > 1 -> frequency_sum + value
+      {_key, value}, frequency_sum when value > 1 and value < 4 -> frequency_sum + value
       _, frequency_sum -> frequency_sum
     end)
     |> Kernel.==(3)
@@ -215,7 +215,7 @@ defmodule BettyPoker.Core.Ranking do
     cards
     |> get_frequency_for_cards()
     |> Enum.reduce(0, fn
-      {_key, value}, frequency_sum when value > 1 and value < 4 -> frequency_sum + value
+      {_key, value}, frequency_sum when value > 1 and value < 3 -> frequency_sum + value
       _, frequency_sum -> frequency_sum
     end)
     |> Kernel.==(4)
